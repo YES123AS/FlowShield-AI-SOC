@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}检测分析报告{% endblock %}
+{% block page_title %}检测分析报告{% endblock %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='jquery/jquery.3.6.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="carbon-card card-pad">
+        <div class="d-flex justify-content-between align-items-start flex-wrap" style="gap: 16px;">
+            <div>
+                <span class="badge-carbon {{ result.severity }}">{{ result.severity_label }}</span>
+                <h2 class="mt-3 mb-2">{{ result.detection_result }}</h2>
+                <p class="muted mb-0">{{ result.attack_summary }}</p>
+            </div>
+            <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('qa.upload_essay') }}">返回上传页面</a>
+        </div>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-label">攻击类型</div>
+            <div class="metric-value">{{ result.attack_type }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">风险分数</div>
+            <div class="metric-value">{{ result.risk_score }} / 100</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">模型置信度</div>
+            <div class="metric-value">
+                {% if result.confidence is not none %}
+                    {{ "%.1f"|format(result.confidence * 100) }}%
+                {% else %}
+                    N/A
+                {% endif %}
+            </div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">恶意流量占比</div>
+            <div class="metric-value">{{ "%.1f"|format(result.malicious_ratio) }}%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">数据包总数</div>
+            <div class="metric-value">{{ result.packet_count }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">主检测模型</div>
+            <div class="metric-value">{{ result.model_name or 'Residual MLP' }}</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>检测链路</h2></div>
+            <div class="card-pad">
+                <p class="mb-2"><strong>特征类型：</strong>{{ result.feature_type or 'CICIDS2017 flow statistics' }}</p>
+                <p class="mb-0"><strong>处理流程：</strong>{{ result.detection_pipeline or 'PCAP -> Flow 特征提取 -> Residual MLP -> 风险评分 + 规则引擎 + 威胁情报' }}</p>
+            </div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>攻击类型分布</h2></div>
+            <div class="card-pad"><div id="attackChart" class="chart-box"></div></div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>协议类型分布</h2></div>
+            <div class="card-pad"><div id="protocolChart" class="chart-box"></div></div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>判断依据</h2></div>
+            <div class="card-pad">
+                <ol class="clean-list">
+                    {% for reason in result.explanation %}
+                    <li>{{ reason }}</li>
+                    {% else %}
+                    <li>暂无判断依据。</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>模型候选结果</h2></div>
+            <div class="table-wrap">
+                <table class="carbon-table">
+                    <thead>
+                        <tr>
+                            <th>候选类型</th>
+                            <th>概率</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in result.topk %}
+                        <tr>
+                            <td>{{ item.label }}</td>
+                            <td>{{ "%.1f"|format(item.score * 100) }}%</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="2">暂无候选结果。</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>详细分析结果</h2></div>
+            <div class="table-wrap">
+                <table class="carbon-table">
+                    <thead>
+                        <tr>
+                            <th>攻击类型</th>
+                            <th>特征流数量</th>
+                            <th>占比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attack_type, count in result.attack_distribution.items() %}
+                        <tr>
+                            <td>{{ attack_type }}</td>
+                            <td>{{ count }}</td>
+                            <td>{{ "%.1f"|format(result.attack_percentages[attack_type]) }}%</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3">暂无攻击分布数据。</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>规则命中</h2></div>
+            {% if result.rule_hits %}
+            <div class="table-wrap">
+                <table class="carbon-table">
+                    <thead>
+                        <tr>
+                            <th>规则编号</th>
+                            <th>规则名称</th>
+                            <th>攻击类型</th>
+                            <th>等级</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rule in result.rule_hits %}
+                        <tr>
+                            <td>{{ rule.rule_id }}</td>
+                            <td>{{ rule.name }}</td>
+                            <td>{{ rule.attack_type }}</td>
+                            <td><span class="badge-carbon {{ rule.severity }}">{{ rule.severity }}</span></td>
+                            <td>{{ rule.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="card-pad"><div class="empty-state">未命中内置规则。</div></div>
+            {% endif %}
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>威胁情报</h2></div>
+            {% if result.threat_intel.hits %}
+            <div class="table-wrap">
+                <table class="carbon-table">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>风险</th>
+                            <th>类型</th>
+                            <th>来源</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hit in result.threat_intel.hits %}
+                        <tr>
+                            <td>{{ hit.ip }}</td>
+                            <td>{{ hit.risk }}</td>
+                            <td>{{ hit.type }}</td>
+                            <td>{{ hit.source }}</td>
+                            <td>{{ hit.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="card-pad"><div class="empty-state">未命中本地威胁情报。</div></div>
+            {% endif %}
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>处置建议</h2></div>
+            <div class="card-pad">
+                <ol class="clean-list">
+                    {% for item in result.recommendations %}
+                    <li>{{ item }}</li>
+                    {% else %}
+                    <li>建议管理员人工复核并保存样本。</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var attackDistribution = {{ result.attack_distribution|tojson }};
+    var protocolDistribution = {{ result.protocol_distribution|tojson }};
+
+    var attackChart = echarts.init(document.getElementById('attackChart'));
+    attackChart.setOption({
+        color: ['#24a148', '#da1e28', '#d97706', '#8a3ffc', '#007d79', '#f1c21b', '#525252'],
+        tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+        legend: { bottom: 0 },
+        series: [{
+            name: '攻击类型',
+            type: 'pie',
+            radius: ['45%', '70%'],
+            itemStyle: { borderColor: '#fff', borderWidth: 2 },
+            data: Object.entries(attackDistribution).map(([name, value]) => ({ value: value, name: name }))
+        }]
+    });
+
+    var protocolChart = echarts.init(document.getElementById('protocolChart'));
+    protocolChart.setOption({
+        color: ['#0f62fe', '#8a3ffc', '#007d79', '#525252'],
+        tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+        legend: { bottom: 0 },
+        series: [{
+            name: '协议类型',
+            type: 'pie',
+            radius: '65%',
+            data: Object.entries(protocolDistribution).map(([name, value]) => ({ value: value, name: name }))
+        }]
+    });
+
+    window.addEventListener('resize', function() {
+        attackChart.resize();
+        protocolChart.resize();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}数据分析看板{% endblock %}
+{% block page_title %}数据分析看板{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>数据分析看板</h2>
+            <p class="mb-0">展示最近 30 天检测趋势、威胁类型、风险等级和规则命中情况。</p>
+        </div>
+        <span class="badge-carbon low">30 天窗口</span>
+    </div>
+
+    <div class="content-grid">
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>恶意流量趋势分析</h2></div>
+            <div class="card-pad"><div id="timeSeriesChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>威胁类型分布</h2></div>
+            <div class="card-pad"><div id="threatTypeChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>文件大小分布</h2></div>
+            <div class="card-pad"><div id="fileSizeChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>Top 10 威胁</h2></div>
+            <div class="card-pad"><div id="topThreatsChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>风险等级分布</h2></div>
+            <div class="card-pad"><div id="severityChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>平均风险分趋势</h2></div>
+            <div class="card-pad"><div id="riskScoreChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>高危事件趋势</h2></div>
+            <div class="card-pad"><div id="highRiskChart" class="chart-box"></div></div>
+        </div>
+        <div class="carbon-card">
+            <div class="card-header-carbon">
+                <h2>规则命中排行</h2>
+                <span class="muted">威胁情报命中：<strong id="intelHitCount">0</strong></span>
+            </div>
+            <div class="card-pad"><div id="ruleHitChart" class="chart-box"></div></div>
+        </div>
+    </div>
+</section>
+
+<script>
+const carbonColors = ['#0f62fe', '#24a148', '#f1c21b', '#da1e28', '#8a3ffc', '#007d79', '#525252'];
+const charts = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    charts.timeSeries = echarts.init(document.getElementById('timeSeriesChart'));
+    charts.threatType = echarts.init(document.getElementById('threatTypeChart'));
+    charts.fileSize = echarts.init(document.getElementById('fileSizeChart'));
+    charts.topThreats = echarts.init(document.getElementById('topThreatsChart'));
+    charts.severity = echarts.init(document.getElementById('severityChart'));
+    charts.riskScore = echarts.init(document.getElementById('riskScoreChart'));
+    charts.highRisk = echarts.init(document.getElementById('highRiskChart'));
+    charts.ruleHit = echarts.init(document.getElementById('ruleHitChart'));
+    fetch('/analysis/api/traffic_stats')
+        .then(response => response.json())
+        .then(updateDashboard)
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+function updateDashboard(data) {
+    updateLine(charts.timeSeries, '检测数量', data.time_series.dates, data.time_series.counts);
+    updatePie(charts.threatType, '威胁类型', data.threat_types.types, data.threat_types.counts);
+    updateBar(charts.fileSize, '文件数量', data.file_size_distribution.ranges, data.file_size_distribution.counts);
+    updateHorizontalBar(charts.topThreats, '出现次数', data.top_threats.names, data.top_threats.counts);
+    updatePie(charts.severity, '风险等级', data.severity_distribution.types, data.severity_distribution.counts);
+    updateLine(charts.riskScore, '平均风险分', data.risk_score_trend.dates, data.risk_score_trend.scores, 100);
+    updateBar(charts.highRisk, '高危事件数', data.high_risk_trend.dates, data.high_risk_trend.counts, '#da1e28');
+    updateHorizontalBar(charts.ruleHit, '命中次数', data.rule_hit_ranking.names, data.rule_hit_ranking.counts);
+    document.getElementById('intelHitCount').innerText = data.threat_intel_hits.count;
+}
+
+function baseGrid() {
+    return { left: 42, right: 24, top: 32, bottom: 42, containLabel: true };
+}
+
+function updateLine(chart, name, xData, yData, maxValue) {
+    chart.setOption({
+        color: ['#0f62fe'],
+        tooltip: { trigger: 'axis' },
+        grid: baseGrid(),
+        xAxis: { type: 'category', boundaryGap: false, data: xData },
+        yAxis: { type: 'value', max: maxValue || null },
+        series: [{ name: name, type: 'line', smooth: true, data: yData, areaStyle: { opacity: 0.12 } }]
+    });
+}
+
+function updateBar(chart, name, xData, yData, color) {
+    chart.setOption({
+        color: [color || '#0f62fe'],
+        tooltip: { trigger: 'axis' },
+        grid: baseGrid(),
+        xAxis: { type: 'category', data: xData },
+        yAxis: { type: 'value' },
+        series: [{ name: name, type: 'bar', data: yData }]
+    });
+}
+
+function updateHorizontalBar(chart, name, yData, xData) {
+    chart.setOption({
+        color: ['#0f62fe'],
+        tooltip: { trigger: 'axis' },
+        grid: baseGrid(),
+        xAxis: { type: 'value' },
+        yAxis: { type: 'category', data: yData },
+        series: [{ name: name, type: 'bar', data: xData, label: { show: true, position: 'right' } }]
+    });
+}
+
+function updatePie(chart, name, labels, counts) {
+    chart.setOption({
+        color: carbonColors,
+        tooltip: { trigger: 'item' },
+        legend: { bottom: 0 },
+        series: [{
+            name: name,
+            type: 'pie',
+            radius: ['45%', '68%'],
+            data: labels.map((label, index) => ({ name: label, value: counts[index] || 0 }))
+        }]
+    });
+}
+
+window.addEventListener('resize', function() {
+    Object.values(charts).forEach(chart => chart.resize());
+});
+</script>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base_admin.html" %}
+
+{% block title %}用户管理{% endblock %}
+{% block page_title %}用户管理{% endblock %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='jquery/jquery.3.6.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>用户管理</h2>
+            <p class="mb-0">维护普通用户账号，支持修改用户名和删除账号。</p>
+        </div>
+        <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('admin.index') }}">返回检测记录</a>
+    </div>
+
+    <div class="carbon-card">
+        <div class="card-header-carbon"><h2>用户列表</h2></div>
+        <div class="table-wrap">
+            <table class="carbon-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td id="username-{{ user.id }}">{{ user.username }}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn-carbon btn-secondary-carbon" onclick="editUsername({{ user.id }})">修改</button>
+                                <button class="btn-carbon btn-danger-carbon" onclick="deleteUser({{ user.id }})">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3">暂无用户。</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    function editUsername(id) {
+        const usernameCell = document.getElementById(`username-${id}`);
+        const currentUsername = usernameCell.textContent;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentUsername;
+        input.className = 'form-control';
+        input.style.maxWidth = '240px';
+        usernameCell.innerHTML = '';
+        usernameCell.appendChild(input);
+
+        const saveButton = document.createElement('button');
+        saveButton.className = 'btn-carbon btn-primary-carbon ml-2';
+        saveButton.textContent = '保存';
+        saveButton.onclick = function () {
+            const newUsername = input.value;
+            if (confirm(`确定要将用户名修改为 ${newUsername} 吗？`)) {
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = `/admin/update_username/${id}`;
+                const inputField = document.createElement('input');
+                inputField.type = 'hidden';
+                inputField.name = 'new_username';
+                inputField.value = newUsername;
+                form.appendChild(inputField);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        };
+
+        const cancelButton = document.createElement('button');
+        cancelButton.className = 'btn-carbon btn-secondary-carbon ml-2';
+        cancelButton.textContent = '取消';
+        cancelButton.onclick = function () {
+            usernameCell.textContent = currentUsername;
+        };
+
+        usernameCell.appendChild(saveButton);
+        usernameCell.appendChild(cancelButton);
+    }
+
+    function deleteUser(id) {
+        if (confirm('敏感操作二次确认：确定要删除这个用户吗？该操作不可直接撤销。')) {
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = `/admin/delete_user/${id}`;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+{% endblock %}

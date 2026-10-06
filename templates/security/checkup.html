@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}系统安全自检{% endblock %}
+{% block page_title %}系统安全自检{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>系统安全自检</h2>
+            <p class="mb-0">检测认证、上传、配置和安全响应头，证明安全产品本身具备安全基线。</p>
+        </div>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-label">通过项</div>
+            <div class="metric-value">{{ pass_count }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">关注项</div>
+            <div class="metric-value">{{ warn_count }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">风险项</div>
+            <div class="metric-value">{{ risk_count }}</div>
+        </div>
+    </div>
+
+    <div class="carbon-card">
+        <div class="card-header-carbon"><h2>检查结果</h2></div>
+        <div class="table-wrap">
+            <table class="carbon-table">
+                <thead>
+                    <tr>
+                        <th>检查项</th>
+                        <th>当前状态</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in checks %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td><span class="badge-carbon {{ item.level }}">{{ item.status }}</span></td>
+                        <td>{{ item.detail }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3">暂无检查项。</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

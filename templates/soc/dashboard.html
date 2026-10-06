@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}AI-SOC 看板{% endblock %}
+{% block page_title %}AI-SOC 看板{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>AI-SOC 安全运营看板</h2>
+            <p class="mb-0">基于检测结果生成安全事件、风险研判、处置建议和可选 AI 报告。</p>
+        </div>
+        <a class="btn-carbon btn-primary-carbon" href="{{ url_for('soc.incident_list') }}">查看事件列表</a>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-label">安全事件总数</div>
+            <div class="metric-value">{{ total }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">待处理事件</div>
+            <div class="metric-value">{{ open_count }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">高危 / 严重事件</div>
+            <div class="metric-value">{{ high_count }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">已处置事件</div>
+            <div class="metric-value">{{ resolved_count }}</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="carbon-card card-pad">
+            <h2>攻击类型分布</h2>
+            {% set max_type = type_counts.values()|max if type_counts else 1 %}
+            {% for attack_type, count in type_counts.items() %}
+            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
+                <span style="width: 120px;">{{ attack_type }}</span>
+                <div style="height: 10px; flex: 1; background: #e0e0e0;"><div style="height: 10px; width: {{ (count / max_type * 100)|round(0, 'floor') }}%; background: #0f62fe;"></div></div>
+                <strong>{{ count }}</strong>
+            </div>
+            {% else %}
+            <div class="empty-state">暂无事件。</div>
+            {% endfor %}
+        </div>
+
+        <div class="carbon-card card-pad">
+            <h2>风险等级分布</h2>
+            {% set max_severity = severity_counts.values()|max if severity_counts else 1 %}
+            {% for severity, count in severity_counts.items() %}
+            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
+                <span style="width: 120px;">{{ severity_cn(severity) }}</span>
+                <div style="height: 10px; flex: 1; background: #e0e0e0;"><div style="height: 10px; width: {{ (count / max_severity * 100)|round(0, 'floor') }}%; background: #24a148;"></div></div>
+                <strong>{{ count }}</strong>
+            </div>
+            {% else %}
+            <div class="empty-state">暂无事件。</div>
+            {% endfor %}
+        </div>
+
+        <div class="carbon-card card-pad">
+            <h2>最近 30 天事件趋势</h2>
+            {% set max_trend = trend_counts|map(attribute='count')|max if trend_counts else 1 %}
+            <div style="display: grid; grid-template-columns: repeat(30, minmax(6px, 1fr)); gap: 5px; align-items: end; height: 160px;">
+                {% for item in trend_counts %}
+                <div title="{{ item.date }}：{{ item.count }}" style="min-height: 4px; height: {{ (item.count / max_trend * 140)|round(0, 'floor') if max_trend else 4 }}px; background: #0f62fe;"></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="carbon-card card-pad">
+            <h2>事件状态分布</h2>
+            <table class="carbon-table" style="min-width: 0;">
+                <tbody>
+                    {% for status, count in status_counts.items() %}
+                    <tr>
+                        <td><span class="badge-carbon {{ status }}">{{ status }}</span></td>
+                        <td><strong>{{ count }}</strong></td>
+                    </tr>
+                    {% else %}
+                    <tr><td>暂无事件</td><td>0</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>最近安全事件</h2></div>
+            <div class="table-wrap">
+                <table class="carbon-table">
+                    <thead>
+                        <tr>
+                            <th>事件编号</th>
+                            <th>事件标题</th>
+                            <th>攻击类型</th>
+                            <th>风险</th>
+                            <th>状态</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for incident in recent_incidents %}
+                        <tr>
+                            <td>{{ incident.incident_no }}</td>
+                            <td>{{ incident.title }}</td>
+                            <td>{{ incident.attack_type }}</td>
+                            <td><span class="badge-carbon {{ incident.severity }}">{{ severity_cn(incident.severity) }}</span> {{ incident.risk_score }}分</td>
+                            <td><span class="badge-carbon {{ incident.status }}">{{ incident.status }}</span></td>
+                            <td>{{ incident.created_at.strftime('%Y-%m-%d %H:%M:%S') if incident.created_at else '' }}</td>
+                            <td><a class="btn-carbon btn-secondary-carbon" href="{{ url_for('soc.incident_detail', incident_id=incident.id) }}">查看详情</a></td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="7">暂无安全事件。</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

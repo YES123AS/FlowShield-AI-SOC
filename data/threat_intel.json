@@ -1,0 +1,14 @@
+{
+  "45.155.205.233": {
+    "risk": "high",
+    "type": "scanner",
+    "source": "local_blacklist",
+    "description": "历史扫描源 IP"
+  },
+  "185.220.101.1": {
+    "risk": "high",
+    "type": "tor_exit_node",
+    "source": "local_blacklist",
+    "description": "可疑匿名代理出口"
+  }
+}

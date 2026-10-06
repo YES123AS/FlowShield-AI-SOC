@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}安全事件列表{% endblock %}
+{% block page_title %}安全事件列表{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>安全事件列表</h2>
+            <p class="mb-0">集中查看 AI-SOC 生成的安全事件、风险等级和处置状态。</p>
+        </div>
+        <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('soc.dashboard') }}">返回看板</a>
+    </div>
+
+    <div class="carbon-card">
+        <div class="table-wrap">
+            <table class="carbon-table">
+                <thead>
+                    <tr>
+                        <th>事件编号</th>
+                        <th>事件标题</th>
+                        <th>攻击类型</th>
+                        <th>风险等级</th>
+                        <th>风险分数</th>
+                        <th>状态</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for incident in incidents %}
+                    <tr>
+                        <td>{{ incident.incident_no }}</td>
+                        <td>{{ incident.title }}</td>
+                        <td>{{ incident.attack_type }}</td>
+                        <td><span class="badge-carbon {{ incident.severity }}">{{ severity_cn(incident.severity) }}</span></td>
+                        <td>{{ incident.risk_score }} / 100</td>
+                        <td><span class="badge-carbon {{ incident.status }}">{{ incident.status }}</span></td>
+                        <td>{{ incident.created_at.strftime('%Y-%m-%d %H:%M:%S') if incident.created_at else '' }}</td>
+                        <td><a class="btn-carbon btn-secondary-carbon" href="{{ url_for('soc.incident_detail', incident_id=incident.id) }}">查看详情</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="8">暂无安全事件。</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

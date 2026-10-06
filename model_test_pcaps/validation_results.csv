@@ -1,0 +1,22 @@
+﻿expected_scenario,variant,relative_path,packet_count,safety,model_prediction,model_confidence,semantic_match,status,flow_count,drift_warning,rule_attack_types,rule_ids
+Normal,1,model_test_pcaps\Normal\normal_01.pcap,19,synthetic/inert/documentation IP ranges,Normal,0.9999722242355347,True,流量正常,1,True,,
+Normal,2,model_test_pcaps\Normal\normal_02.pcap,21,synthetic/inert/documentation IP ranges,Normal,0.9999758005142212,True,流量正常,1,True,,
+Normal,3,model_test_pcaps\Normal\normal_03.pcap,23,synthetic/inert/documentation IP ranges,Normal,0.9999768733978271,True,流量正常,1,True,,
+DDoS,1,model_test_pcaps\DDoS\ddos_01.pcap,520,synthetic/inert/documentation IP ranges,Normal,0.9999715089797974,False,流量正常,26,True,DDoS,RULE_DDOS_001
+DDoS,2,model_test_pcaps\DDoS\ddos_02.pcap,952,synthetic/inert/documentation IP ranges,Normal,0.9999728202819824,False,流量正常,34,True,DDoS,RULE_DDOS_001
+DDoS,3,model_test_pcaps\DDoS\ddos_03.pcap,1512,synthetic/inert/documentation IP ranges,Normal,0.9999731779098511,False,流量正常,42,True,DDoS,RULE_DDOS_001
+DoS,1,model_test_pcaps\DoS\dos_01.pcap,600,synthetic/inert/documentation IP ranges,Normal,0.9997491240501404,False,流量正常,1,True,DDoS,RULE_DDOS_001
+DoS,2,model_test_pcaps\DoS\dos_02.pcap,850,synthetic/inert/documentation IP ranges,Normal,0.9995550513267517,False,流量正常,1,True,DDoS,RULE_DDOS_001
+DoS,3,model_test_pcaps\DoS\dos_03.pcap,1100,synthetic/inert/documentation IP ranges,Normal,0.9991165995597839,False,流量正常,1,True,DDoS,RULE_DDOS_001
+PortScan,1,model_test_pcaps\PortScan\portscan_01.pcap,80,synthetic/inert/documentation IP ranges,Normal,0.9999823570251465,False,流量正常,80,False,PortScan,"RULE_PORTSCAN_001,RULE_SENSITIVE_PORT_001"
+PortScan,2,model_test_pcaps\PortScan\portscan_02.pcap,75,synthetic/inert/documentation IP ranges,Normal,0.9971664547920227,False,流量正常,56,True,PortScan,"RULE_PORTSCAN_001,RULE_SENSITIVE_PORT_001"
+PortScan,3,model_test_pcaps\PortScan\portscan_03.pcap,120,synthetic/inert/documentation IP ranges,Normal,0.9999144673347473,False,流量正常,120,False,PortScan,RULE_PORTSCAN_001
+BruteForce,1,model_test_pcaps\BruteForce\bruteforce_01.pcap,250,synthetic/inert/documentation IP ranges,Normal,0.9999430179595947,False,流量正常,50,True,BruteForce,RULE_BRUTEFORCE_001
+BruteForce,2,model_test_pcaps\BruteForce\bruteforce_02.pcap,325,synthetic/inert/documentation IP ranges,Normal,0.99994295835495,False,流量正常,65,True,BruteForce,RULE_BRUTEFORCE_001
+BruteForce,3,model_test_pcaps\BruteForce\bruteforce_03.pcap,400,synthetic/inert/documentation IP ranges,Normal,0.9875746965408325,False,流量正常,80,True,BruteForce,RULE_BRUTEFORCE_001
+WebAttack,1,model_test_pcaps\WebAttack\webattack_01.pcap,168,synthetic/inert/documentation IP ranges,Normal,0.9999541640281677,False,流量正常,28,False,,
+WebAttack,2,model_test_pcaps\WebAttack\webattack_02.pcap,228,synthetic/inert/documentation IP ranges,Normal,0.9999634623527527,False,流量正常,38,False,,
+WebAttack,3,model_test_pcaps\WebAttack\webattack_03.pcap,288,synthetic/inert/documentation IP ranges,Normal,0.999961793422699,False,流量正常,48,False,,
+Malware,1,model_test_pcaps\Malware\malware_01.pcap,40,synthetic/inert/documentation IP ranges,Normal,0.9992151260375977,False,流量正常,1,False,,
+Malware,2,model_test_pcaps\Malware\malware_02.pcap,32,synthetic/inert/documentation IP ranges,Normal,0.9996426105499268,False,流量正常,1,True,,
+Malware,3,model_test_pcaps\Malware\malware_03.pcap,30,synthetic/inert/documentation IP ranges,Normal,0.5809603333473206,False,流量正常,3,True,,

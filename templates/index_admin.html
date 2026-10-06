@@ -1,0 +1,72 @@
+{% extends "base_admin.html" %}
+
+{% block title %}管理员后台{% endblock %}
+{% block page_title %}管理员后台{% endblock %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='jquery/jquery.3.6.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>检测记录管理</h2>
+            <p class="mb-0">管理员可查看所有上传检测记录，并执行必要的数据清理。</p>
+        </div>
+        <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('admin.user_manage') }}">用户管理</a>
+    </div>
+
+    <div class="carbon-card">
+        <div class="card-header-carbon"><h2>检测记录</h2></div>
+        <div class="table-wrap">
+            <table class="carbon-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>文件名称</th>
+                        <th>文件大小</th>
+                        <th>攻击类型</th>
+                        <th>风险等级</th>
+                        <th>风险分数</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for traffic in traffics %}
+                    <tr>
+                        <td>{{ traffic.id }}</td>
+                        <td>{{ traffic.file_name }}</td>
+                        <td>{{ traffic.file_size }} 字节</td>
+                        <td>{{ traffic.attack_type or 'Unknown' }}</td>
+                        <td><span class="badge-carbon {{ traffic.severity or 'normal' }}">{{ traffic.severity or 'normal' }}</span></td>
+                        <td>{{ traffic.risk_score or 0 }} / 100</td>
+                        <td>{{ traffic.upload_time.strftime('%Y-%m-%d %H:%M:%S') if traffic.upload_time else '' }}</td>
+                        <td>
+                            <button class="btn-carbon btn-danger-carbon" onclick="deleteTraffic({{ traffic.id }})">删除</button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8">暂无检测记录。</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    function deleteTraffic(id) {
+        if (confirm('敏感操作二次确认：确定要删除这条检测记录吗？删除后关联安全事件也可能受到影响。')) {
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = `/delete/${id}`;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+{% endblock %}

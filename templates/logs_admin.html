@@ -1,0 +1,45 @@
+{% extends "base_admin.html" %}
+
+{% block title %}日志审计{% endblock %}
+{% block page_title %}日志审计{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>日志审计</h2>
+            <p class="mb-0">展示系统关键操作记录，便于比赛演示和安全追溯。</p>
+        </div>
+    </div>
+
+    <div class="carbon-card">
+        <div class="card-header-carbon"><h2>操作日志</h2></div>
+        <div class="table-wrap">
+            <table class="carbon-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>操作名称</th>
+                        <th>操作用户</th>
+                        <th>操作时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.id }}</td>
+                        <td>{{ log.op_name }}</td>
+                        <td>{{ log.op_user }}</td>
+                        <td>{{ log.op_time.strftime('%Y-%m-%d %H:%M:%S') if log.op_time else '' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">暂无日志记录。</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

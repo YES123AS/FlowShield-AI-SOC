@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}实时监控{% endblock %}
+{% block page_title %}实时监控{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>实时监控</h2>
+            <p class="mb-0">按固定间隔抓取网络流量并调用检测模型，结果会追加到下方历史列表。</p>
+        </div>
+        <button id="start-capture" class="btn-carbon btn-primary-carbon">开始监控</button>
+    </div>
+
+    <div class="carbon-card card-pad status-panel">
+        <div id="status-message" class="status-message" style="display: none;">
+            正在抓包，请稍等...
+        </div>
+        <div id="capture-history" class="capture-history">
+            <div class="empty-state">尚未开始监控。</div>
+        </div>
+    </div>
+</section>
+
+<script>
+    let intervalId;
+    const startCaptureButton = document.getElementById('start-capture');
+    const statusMessage = document.getElementById('status-message');
+    const captureHistory = document.getElementById('capture-history');
+
+    startCaptureButton.addEventListener('click', function () {
+        if (startCaptureButton.textContent === '开始监控') {
+            fetch('/savelog', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            }).catch(error => console.error('请求失败:', error));
+
+            statusMessage.style.display = 'block';
+            startCaptureButton.textContent = '停止监控';
+            startCaptureButton.classList.remove('btn-primary-carbon');
+            startCaptureButton.classList.add('btn-danger-carbon');
+            captureHistory.innerHTML = '';
+
+            intervalId = setInterval(() => {
+                fetch('/start_monitor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    statusMessage.style.display = 'none';
+                    if (data.success) {
+                        const captureItem = document.createElement('div');
+                        captureItem.classList.add('file-info');
+                        const formattedResult = (data.result || '').replace(/\n/g, '<br>');
+                        const attackType = data.attack_type || 'Unknown';
+                        const confidence = data.confidence == null ? '-' : `${(Number(data.confidence) * 100).toFixed(2)}%`;
+                        captureItem.innerHTML = `
+                            <strong>抓包成功</strong>
+                            <p class="muted mb-2">检测结果：${attackType} / 置信度：${confidence}</p>
+                            <p class="muted mb-2">流量信息</p>
+                            <div>${formattedResult}</div>
+                        `;
+                        captureHistory.prepend(captureItem);
+                    } else {
+                        alert('抓包失败，请重试。');
+                    }
+                })
+                .catch(error => {
+                    console.error('抓包请求失败:', error);
+                    alert('抓包请求失败，请检查网络连接。');
+                });
+            }, 5000);
+        } else {
+            clearInterval(intervalId);
+            startCaptureButton.textContent = '开始监控';
+            startCaptureButton.classList.remove('btn-danger-carbon');
+            startCaptureButton.classList.add('btn-primary-carbon');
+            statusMessage.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

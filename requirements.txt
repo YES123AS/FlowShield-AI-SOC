@@ -1,0 +1,14 @@
+flask
+flask-sqlalchemy
+flask-migrate
+pymysql
+wtforms
+email-validator
+python-dotenv
+scapy
+pandas
+numpy
+scikit-learn==1.6.1
+joblib
+torch
+openai

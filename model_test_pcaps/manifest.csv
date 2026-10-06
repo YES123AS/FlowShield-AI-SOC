@@ -1,0 +1,22 @@
+﻿expected_scenario,variant,relative_path,packet_count,safety
+Normal,1,model_test_pcaps\Normal\normal_01.pcap,19,synthetic/inert/documentation IP ranges
+Normal,2,model_test_pcaps\Normal\normal_02.pcap,21,synthetic/inert/documentation IP ranges
+Normal,3,model_test_pcaps\Normal\normal_03.pcap,23,synthetic/inert/documentation IP ranges
+DDoS,1,model_test_pcaps\DDoS\ddos_01.pcap,520,synthetic/inert/documentation IP ranges
+DDoS,2,model_test_pcaps\DDoS\ddos_02.pcap,952,synthetic/inert/documentation IP ranges
+DDoS,3,model_test_pcaps\DDoS\ddos_03.pcap,1512,synthetic/inert/documentation IP ranges
+DoS,1,model_test_pcaps\DoS\dos_01.pcap,600,synthetic/inert/documentation IP ranges
+DoS,2,model_test_pcaps\DoS\dos_02.pcap,850,synthetic/inert/documentation IP ranges
+DoS,3,model_test_pcaps\DoS\dos_03.pcap,1100,synthetic/inert/documentation IP ranges
+PortScan,1,model_test_pcaps\PortScan\portscan_01.pcap,80,synthetic/inert/documentation IP ranges
+PortScan,2,model_test_pcaps\PortScan\portscan_02.pcap,75,synthetic/inert/documentation IP ranges
+PortScan,3,model_test_pcaps\PortScan\portscan_03.pcap,120,synthetic/inert/documentation IP ranges
+BruteForce,1,model_test_pcaps\BruteForce\bruteforce_01.pcap,250,synthetic/inert/documentation IP ranges
+BruteForce,2,model_test_pcaps\BruteForce\bruteforce_02.pcap,325,synthetic/inert/documentation IP ranges
+BruteForce,3,model_test_pcaps\BruteForce\bruteforce_03.pcap,400,synthetic/inert/documentation IP ranges
+WebAttack,1,model_test_pcaps\WebAttack\webattack_01.pcap,168,synthetic/inert/documentation IP ranges
+WebAttack,2,model_test_pcaps\WebAttack\webattack_02.pcap,228,synthetic/inert/documentation IP ranges
+WebAttack,3,model_test_pcaps\WebAttack\webattack_03.pcap,288,synthetic/inert/documentation IP ranges
+Malware,1,model_test_pcaps\Malware\malware_01.pcap,40,synthetic/inert/documentation IP ranges
+Malware,2,model_test_pcaps\Malware\malware_02.pcap,32,synthetic/inert/documentation IP ranges
+Malware,3,model_test_pcaps\Malware\malware_03.pcap,30,synthetic/inert/documentation IP ranges

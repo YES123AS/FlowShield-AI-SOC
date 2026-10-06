@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}抓包数据{% endblock %}
+{% block page_title %}抓包数据{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>抓包网络流量</h2>
+            <p class="mb-0">手动执行一次抓包任务，并将 PCAP 文件保存到 captured_traffic 目录。</p>
+        </div>
+        <button id="start-capture" class="btn-carbon btn-primary-carbon">开始抓包</button>
+    </div>
+
+    <div class="carbon-card card-pad status-panel">
+        <div id="status-message" class="status-message" style="display: none;">
+            正在抓包，请稍等...
+        </div>
+        <div id="file-info" class="file-info" style="display: none;">
+            <strong>抓包成功</strong>
+            <div class="table-wrap mt-3">
+                <table class="carbon-table">
+                    <tbody>
+                        <tr>
+                            <th>文件名</th>
+                            <td><span id="filename"></span></td>
+                        </tr>
+                        <tr>
+                            <th>文件大小</th>
+                            <td><span id="filesize"></span> bytes</td>
+                        </tr>
+                        <tr>
+                            <th>抓包时间</th>
+                            <td><span id="capture-time"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="empty-capture" class="empty-state">点击“开始抓包”后会显示生成的文件信息。</div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('start-capture').addEventListener('click', function () {
+        document.getElementById('status-message').style.display = 'block';
+        document.getElementById('file-info').style.display = 'none';
+        document.getElementById('empty-capture').style.display = 'none';
+
+        fetch('/start_capture', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('status-message').style.display = 'none';
+            if (data.success) {
+                document.getElementById('filename').textContent = data.filename;
+                document.getElementById('filesize').textContent = data.filesize;
+                document.getElementById('capture-time').textContent = data.capture_time;
+                document.getElementById('file-info').style.display = 'block';
+            } else {
+                alert('抓包失败，请重试。');
+            }
+        })
+        .catch(error => {
+            console.error('抓包请求失败:', error);
+            alert('抓包请求失败，请检查网络连接。');
+        });
+    });
+</script>
+{% endblock %}

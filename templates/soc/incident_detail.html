@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}安全事件详情{% endblock %}
+{% block page_title %}安全事件详情{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="carbon-card card-pad">
+        <div class="d-flex justify-content-between align-items-start flex-wrap" style="gap: 16px;">
+            <div>
+                <span class="badge-carbon {{ incident.severity }}">{{ severity_cn(incident.severity) }}</span>
+                <h2 class="mt-3 mb-2">{{ incident.title }}</h2>
+                <p class="muted mb-0">事件编号：{{ incident.incident_no }}</p>
+            </div>
+            <div class="actions">
+                <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('soc.incident_list') }}">返回列表</a>
+                <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('soc.dashboard') }}">返回看板</a>
+                <a class="btn-carbon btn-primary-carbon" href="{{ url_for('soc.incident_report', incident_id=incident.id) }}" onclick="return confirm('将打开安全事件报告页面，确认继续吗？')">查看报告</a>
+                {% if incident.status != 'resolved' %}
+                <form method="post" action="{{ url_for('soc.resolve_incident', incident_id=incident.id) }}">
+                    <button class="btn-carbon btn-primary-carbon" type="submit" onclick="return confirm('确认将该安全事件标记为已处置吗？')">标记已处置</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-label">攻击类型</div>
+            <div class="metric-value">{{ incident.attack_type }}</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">风险分数</div>
+            <div class="metric-value">{{ incident.risk_score }} / 100</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">事件状态</div>
+            <div class="metric-value"><span class="badge-carbon {{ incident.status }}">{{ incident.status }}</span></div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">生成方式</div>
+            <div class="metric-value">{{ 'DeepSeek + 规则' if incident.llm_used else '本地规则' }}</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>事件摘要</h2></div>
+            <div class="card-pad"><p class="mb-0">{{ incident.summary }}</p></div>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>Agent 执行过程</h2></div>
+            <div class="card-pad">
+                <div class="content-grid three">
+                    {% for step in agent_steps %}
+                    <div class="carbon-card card-pad">
+                        <span class="badge-carbon pass">{{ step.status }}</span>
+                        <h3 class="mt-2">{{ step.name }}</h3>
+                        <p class="muted mb-0">{{ step.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>判断依据</h2></div>
+            <div class="card-pad">
+                <ol class="clean-list">
+                    {% for item in judgement_basis %}
+                    <li>{{ item }}</li>
+                    {% else %}
+                    <li>暂无判断依据。</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>原因分析</h2></div>
+            <div class="card-pad">
+                <p>{{ incident.cause_analysis }}</p>
+                {% if history.description %}
+                <p class="muted mb-0">{{ history.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>攻击链分析</h2></div>
+            <div class="card-pad">
+                <p>{{ attack_chain.description }}</p>
+                <div class="actions">
+                    {% for step in attack_chain.steps %}
+                    <span class="badge-carbon low">{{ step }}</span>
+                    {% else %}
+                    <span class="muted">暂无攻击链阶段。</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>影响分析</h2></div>
+            <div class="card-pad"><p class="mb-0">{{ incident.impact_analysis }}</p></div>
+        </div>
+
+        <div class="carbon-card">
+            <div class="card-header-carbon"><h2>处置建议</h2></div>
+            <div class="card-pad">
+                <ol class="clean-list">
+                    {% for item in recommendations %}
+                    <li>{{ item }}</li>
+                    {% else %}
+                    <li>建议管理员人工复核并保留相关流量样本。</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon"><h2>检测证据</h2></div>
+            <div class="table-wrap">
+                <table class="carbon-table">
+                    <tbody>
+                        <tr><th>文件名称</th><td>{{ evidence.file_name }}</td></tr>
+                        <tr><th>文件大小</th><td>{{ evidence.file_size }} 字节</td></tr>
+                        <tr><th>恶意流量占比</th><td>{{ evidence.malicious_ratio or 0 }}%</td></tr>
+                        <tr>
+                            <th>模型置信度</th>
+                            <td>{% if evidence.confidence is not none %}{{ "%.1f"|format(evidence.confidence * 100) }}%{% else %}N/A{% endif %}</td>
+                        </tr>
+                        <tr><th>协议分布</th><td>{{ evidence.protocol_distribution }}</td></tr>
+                        <tr><th>攻击分布</th><td>{{ evidence.attack_distribution }}</td></tr>
+                        <tr><th>上传时间</th><td>{{ evidence.upload_time }}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="carbon-card full">
+            <div class="card-header-carbon">
+                <h2>DeepSeek AI 报告</h2>
+                <form method="post" action="{{ url_for('soc.regenerate_ai_report', incident_id=incident.id) }}">
+                    <button type="submit" class="btn-carbon btn-secondary-carbon">重新生成 AI 报告</button>
+                </form>
+            </div>
+            <div class="card-pad">
+                <div class="ai-report">{{ incident.ai_report or 'DeepSeek 未启用，当前页面展示本地规则研判结果。' }}</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

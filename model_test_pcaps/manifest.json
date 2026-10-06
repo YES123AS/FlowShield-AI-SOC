@@ -1,0 +1,149 @@
+[
+  {
+    "expected_scenario": "Normal",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\Normal\\normal_01.pcap",
+    "packet_count": 19,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "Normal",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\Normal\\normal_02.pcap",
+    "packet_count": 21,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "Normal",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\Normal\\normal_03.pcap",
+    "packet_count": 23,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "DDoS",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\DDoS\\ddos_01.pcap",
+    "packet_count": 520,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "DDoS",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\DDoS\\ddos_02.pcap",
+    "packet_count": 952,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "DDoS",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\DDoS\\ddos_03.pcap",
+    "packet_count": 1512,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "DoS",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\DoS\\dos_01.pcap",
+    "packet_count": 600,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "DoS",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\DoS\\dos_02.pcap",
+    "packet_count": 850,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "DoS",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\DoS\\dos_03.pcap",
+    "packet_count": 1100,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "PortScan",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\PortScan\\portscan_01.pcap",
+    "packet_count": 80,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "PortScan",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\PortScan\\portscan_02.pcap",
+    "packet_count": 75,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "PortScan",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\PortScan\\portscan_03.pcap",
+    "packet_count": 120,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "BruteForce",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\BruteForce\\bruteforce_01.pcap",
+    "packet_count": 250,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "BruteForce",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\BruteForce\\bruteforce_02.pcap",
+    "packet_count": 325,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "BruteForce",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\BruteForce\\bruteforce_03.pcap",
+    "packet_count": 400,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "WebAttack",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\WebAttack\\webattack_01.pcap",
+    "packet_count": 168,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "WebAttack",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\WebAttack\\webattack_02.pcap",
+    "packet_count": 228,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "WebAttack",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\WebAttack\\webattack_03.pcap",
+    "packet_count": 288,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "Malware",
+    "variant": 1,
+    "relative_path": "model_test_pcaps\\Malware\\malware_01.pcap",
+    "packet_count": 40,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "Malware",
+    "variant": 2,
+    "relative_path": "model_test_pcaps\\Malware\\malware_02.pcap",
+    "packet_count": 32,
+    "safety": "synthetic/inert/documentation IP ranges"
+  },
+  {
+    "expected_scenario": "Malware",
+    "variant": 3,
+    "relative_path": "model_test_pcaps\\Malware\\malware_03.pcap",
+    "packet_count": 30,
+    "safety": "synthetic/inert/documentation IP ranges"
+  }
+]

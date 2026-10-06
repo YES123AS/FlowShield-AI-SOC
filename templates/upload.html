@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}PCAP 上传检测{% endblock %}
+{% block page_title %}PCAP 上传检测{% endblock %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='jquery/jquery.3.6.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="page-intro">
+        <div>
+            <h2>上传流量文件</h2>
+            <p class="mb-0">支持 .pcap 和 .pcapng，系统会进行文件头校验、Flow 特征提取、Residual MLP 检测和 AI-SOC 事件生成。</p>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="carbon-card card-pad">
+            <form method="POST" action="#" enctype="multipart/form-data" id="uploadForm">
+                <div class="form-group">
+                    <label for="pcap_file">选择流量文件</label>
+                    <div class="upload-zone">
+                        <input type="file" class="form-control-file" id="pcap_file" name="pcap_file" accept=".pcap,.pcapng" required>
+                        <div>
+                            <strong>支持格式：.pcap / .pcapng</strong>
+                            <div class="muted">最大 20MB，上传后自动进入检测流程。</div>
+                        </div>
+                    </div>
+                    <div id="filePreviewContainer" class="file-info mt-3" style="display: none;">
+                        <p id="fileInfo" class="mb-0"></p>
+                    </div>
+                </div>
+                <div id="loadingMessage" class="status-message" style="display: none;">
+                    正在检测中，请等待...
+                </div>
+                <button type="submit" class="btn-carbon btn-primary-carbon mt-3">开始检测</button>
+            </form>
+        </div>
+
+        <div class="carbon-card card-pad">
+            <h3>检测说明</h3>
+            <ol class="clean-list">
+                <li>解析上传的 PCAP/PCAPNG 文件并提取 CICIDS2017 风格 Flow 统计特征。</li>
+                <li>调用 Residual MLP 主模型输出攻击类型、置信度和 Top-K 候选。</li>
+                <li>结合规则引擎、威胁情报和风险评分生成安全事件。</li>
+                <li>启用 DeepSeek 后会生成 AI-SOC 安全分析报告。</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<script>
+    const fileInput = document.getElementById('pcap_file');
+    const filePreviewContainer = document.getElementById('filePreviewContainer');
+    const fileInfo = document.getElementById('fileInfo');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const uploadForm = document.getElementById('uploadForm');
+
+    fileInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const fileSize = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+            fileInfo.textContent = `文件名：${file.name}，文件大小：${fileSize}`;
+            filePreviewContainer.style.display = 'block';
+        }
+    });
+
+    uploadForm.addEventListener('submit', function () {
+        loadingMessage.style.display = 'block';
+    });
+</script>
+{% endblock %}

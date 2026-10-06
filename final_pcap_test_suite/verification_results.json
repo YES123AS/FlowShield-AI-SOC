@@ -1,0 +1,233 @@
+[
+  {
+    "expected_class": "DDoS",
+    "file": "final_pcap_test_suite\\DDoS\\ddos_test_01.pcap",
+    "model_prediction": "DDoS",
+    "model_confidence": 0.9919055700302124,
+    "final_fused_prediction": "DDoS",
+    "risk_score": 75,
+    "severity": "high",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "DDoS",
+    "file": "final_pcap_test_suite\\DDoS\\ddos_test_02.pcap",
+    "model_prediction": "DDoS",
+    "model_confidence": 0.9907163977622986,
+    "final_fused_prediction": "DDoS",
+    "risk_score": 75,
+    "severity": "high",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "DDoS",
+    "file": "final_pcap_test_suite\\DDoS\\ddos_test_03.pcap",
+    "model_prediction": "DDoS",
+    "model_confidence": 0.9840303659439087,
+    "final_fused_prediction": "DDoS",
+    "risk_score": 75,
+    "severity": "high",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "DoS",
+    "file": "final_pcap_test_suite\\DoS\\dos_test_01.pcap",
+    "model_prediction": "DoS",
+    "model_confidence": 0.999916672706604,
+    "final_fused_prediction": "DoS",
+    "risk_score": 35,
+    "severity": "low",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "DoS",
+    "file": "final_pcap_test_suite\\DoS\\dos_test_02.pcap",
+    "model_prediction": "DoS",
+    "model_confidence": 0.9999134540557861,
+    "final_fused_prediction": "DoS",
+    "risk_score": 35,
+    "severity": "low",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "DoS",
+    "file": "final_pcap_test_suite\\DoS\\dos_test_03.pcap",
+    "model_prediction": "DoS",
+    "model_confidence": 0.9999039173126221,
+    "final_fused_prediction": "DoS",
+    "risk_score": 30,
+    "severity": "low",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "Malware",
+    "file": "final_pcap_test_suite\\Malware\\malware_test_01.pcap",
+    "model_prediction": "Malware",
+    "model_confidence": 0.9976279139518738,
+    "final_fused_prediction": "Malware",
+    "risk_score": 90,
+    "severity": "critical",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "Malware",
+    "file": "final_pcap_test_suite\\Malware\\malware_test_02.pcap",
+    "model_prediction": "Malware",
+    "model_confidence": 0.9976263642311096,
+    "final_fused_prediction": "Malware",
+    "risk_score": 90,
+    "severity": "critical",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "Malware",
+    "file": "final_pcap_test_suite\\Malware\\malware_test_03.pcap",
+    "model_prediction": "Malware",
+    "model_confidence": 0.9976266026496887,
+    "final_fused_prediction": "Malware",
+    "risk_score": 90,
+    "severity": "critical",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "WebAttack",
+    "file": "final_pcap_test_suite\\WebAttack\\webattack_test_01.pcap",
+    "model_prediction": "WebAttack",
+    "model_confidence": 0.6385931372642517,
+    "final_fused_prediction": "WebAttack",
+    "risk_score": 45,
+    "severity": "medium",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "WebAttack",
+    "file": "final_pcap_test_suite\\WebAttack\\webattack_test_02.pcap",
+    "model_prediction": "WebAttack",
+    "model_confidence": 0.6338829398155212,
+    "final_fused_prediction": "WebAttack",
+    "risk_score": 45,
+    "severity": "medium",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "WebAttack",
+    "file": "final_pcap_test_suite\\WebAttack\\webattack_test_03.pcap",
+    "model_prediction": "WebAttack",
+    "model_confidence": 0.5834682583808899,
+    "final_fused_prediction": "WebAttack",
+    "risk_score": 30,
+    "severity": "low",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "PortScan",
+    "file": "final_pcap_test_suite\\PortScan\\portscan_test_01.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9999823570251465,
+    "final_fused_prediction": "PortScan",
+    "risk_score": 50,
+    "severity": "medium",
+    "rule_ids": "RULE_PORTSCAN_001,RULE_SENSITIVE_PORT_001",
+    "passed": true
+  },
+  {
+    "expected_class": "PortScan",
+    "file": "final_pcap_test_suite\\PortScan\\portscan_test_02.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9971664547920227,
+    "final_fused_prediction": "PortScan",
+    "risk_score": 50,
+    "severity": "medium",
+    "rule_ids": "RULE_PORTSCAN_001,RULE_SENSITIVE_PORT_001",
+    "passed": true
+  },
+  {
+    "expected_class": "PortScan",
+    "file": "final_pcap_test_suite\\PortScan\\portscan_test_03.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9999144673347473,
+    "final_fused_prediction": "PortScan",
+    "risk_score": 45,
+    "severity": "medium",
+    "rule_ids": "RULE_PORTSCAN_001",
+    "passed": true
+  },
+  {
+    "expected_class": "BruteForce",
+    "file": "final_pcap_test_suite\\BruteForce\\bruteforce_test_01.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9999430179595947,
+    "final_fused_prediction": "BruteForce",
+    "risk_score": 65,
+    "severity": "medium",
+    "rule_ids": "RULE_BRUTEFORCE_001",
+    "passed": true
+  },
+  {
+    "expected_class": "BruteForce",
+    "file": "final_pcap_test_suite\\BruteForce\\bruteforce_test_02.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.99994295835495,
+    "final_fused_prediction": "BruteForce",
+    "risk_score": 65,
+    "severity": "medium",
+    "rule_ids": "RULE_BRUTEFORCE_001",
+    "passed": true
+  },
+  {
+    "expected_class": "BruteForce",
+    "file": "final_pcap_test_suite\\BruteForce\\bruteforce_test_03.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9875746965408325,
+    "final_fused_prediction": "BruteForce",
+    "risk_score": 65,
+    "severity": "medium",
+    "rule_ids": "RULE_BRUTEFORCE_001",
+    "passed": true
+  },
+  {
+    "expected_class": "Normal",
+    "file": "final_pcap_test_suite\\Normal\\normal_test_01.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9999722242355347,
+    "final_fused_prediction": "Normal",
+    "risk_score": 0,
+    "severity": "normal",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "Normal",
+    "file": "final_pcap_test_suite\\Normal\\normal_test_02.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9999758005142212,
+    "final_fused_prediction": "Normal",
+    "risk_score": 0,
+    "severity": "normal",
+    "rule_ids": "",
+    "passed": true
+  },
+  {
+    "expected_class": "Normal",
+    "file": "final_pcap_test_suite\\Normal\\normal_test_03.pcap",
+    "model_prediction": "Normal",
+    "model_confidence": 0.9999768733978271,
+    "final_fused_prediction": "Normal",
+    "risk_score": 0,
+    "severity": "normal",
+    "rule_ids": "",
+    "passed": true
+  }
+]

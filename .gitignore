@@ -1,0 +1,49 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# IDE and OS metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local databases (may contain users, password hashes, and event data)
+*.db
+*.sqlite
+*.sqlite3
+/traffic_system
+
+# Runtime uploads, captures, and generated output
+/uploads/
+/captured_traffic/
+/outputs/
+*.pcap
+*.pcapng
+*.cap
+*.log
+
+# Local/training data; publish separately only after a privacy and license review
+/network_traffic_dataset.csv
+
+# Temporary Codex/design workspace unrelated to the application
+/.codex_stage_ai_design/

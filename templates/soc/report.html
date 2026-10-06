@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}安全事件报告{% endblock %}
+{% block page_title %}安全事件报告{% endblock %}
+
+{% block body %}
+<section class="page-section">
+    <div class="carbon-card card-pad">
+        <div class="d-flex justify-content-between align-items-start flex-wrap" style="gap: 16px;">
+            <div>
+                <span class="badge-carbon {{ incident.severity }}">{{ severity_cn(incident.severity) }}</span>
+                <h2 class="mt-3 mb-2">{{ incident.title }}</h2>
+                <p class="muted mb-0">事件编号：{{ incident.incident_no }} · 攻击类型：{{ incident.attack_type }} · 风险分数：{{ incident.risk_score }} / 100</p>
+            </div>
+            <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('soc.incident_detail', incident_id=incident.id) }}">返回事件详情</a>
+        </div>
+    </div>
+
+    <div class="carbon-card card-pad">
+        <h2>事件摘要</h2>
+        <p>{{ incident.summary }}</p>
+        <h2>判断依据</h2>
+        <ol class="clean-list">
+            {% for item in judgement_basis %}
+            <li>{{ item }}</li>
+            {% else %}
+            <li>暂无判断依据。</li>
+            {% endfor %}
+        </ol>
+        <h2 class="mt-4">攻击链分析</h2>
+        <p>{{ attack_chain.description }}</p>
+        <h2>影响分析</h2>
+        <p>{{ incident.impact_analysis }}</p>
+        <h2>处置建议</h2>
+        <ol class="clean-list">
+            {% for item in recommendations %}
+            <li>{{ item }}</li>
+            {% else %}
+            <li>建议管理员人工复核并保留相关流量样本。</li>
+            {% endfor %}
+        </ol>
+        <h2 class="mt-4">AI 安全报告</h2>
+        <div class="ai-report">{{ incident.ai_report or 'DeepSeek 未启用，当前报告使用本地规则研判内容。' }}</div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}恶意流量检测与 AI-SOC 安全运营平台{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.4.6.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/init.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/carbon-like.css') }}">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+{% block shell %}
+<div class="app-shell">
+    <aside class="app-sidebar">
+        <a class="brand" href="{{ url_for('qa.index') }}">
+            <span class="brand-mark">SOC</span>
+            <span class="brand-text">恶意流量检测与 AI-SOC 安全运营平台</span>
+        </a>
+        <nav class="side-nav" aria-label="主导航">
+            <a class="side-link {% if request.endpoint == 'qa.index' %}active{% endif %}" href="{{ url_for('qa.index') }}">总览 Dashboard</a>
+            <a class="side-link {% if request.endpoint == 'qa.upload_essay' %}active{% endif %}" href="{{ url_for('qa.upload_essay') }}">PCAP 上传检测</a>
+            <a class="side-link {% if request.endpoint == 'qa.start_offline_detection' %}active{% endif %}" href="{{ url_for('qa.start_offline_detection') }}">实时监控</a>
+            <a class="side-link" href="{{ url_for('qa.index') }}#records">检测记录</a>
+            <a class="side-link {% if request.endpoint == 'analysis.dashboard' %}active{% endif %}" href="{{ url_for('analysis.dashboard') }}">数据分析看板</a>
+            <a class="side-link {% if request.endpoint and request.endpoint.startswith('soc.') %}active{% endif %}" href="{{ url_for('soc.dashboard') }}">AI-SOC 安全事件</a>
+            <a class="side-link {% if request.endpoint == 'admin.logs' %}active{% endif %}" href="{{ url_for('admin.logs') }}">日志审计</a>
+            <a class="side-link {% if request.endpoint and request.endpoint.startswith('admin.') and request.endpoint != 'admin.logs' %}active{% endif %}" href="{{ url_for('admin.index') }}">管理员后台</a>
+            <a class="side-link {% if request.endpoint == 'qa.capture_data' %}active{% endif %}" href="{{ url_for('qa.capture_data') }}">抓包数据</a>
+            <a class="side-link {% if request.endpoint == 'security.checkup' %}active{% endif %}" href="{{ url_for('security.checkup') }}">安全自检</a>
+        </nav>
+    </aside>
+
+    <div class="app-main">
+        <header class="topbar">
+            <div>
+                <div class="topbar-eyebrow">Security Operations</div>
+                <h1>{% block page_title %}{{ self.title() }}{% endblock %}</h1>
+            </div>
+            <div class="topbar-user">
+                {% if user %}
+                    <span class="user-chip">{{ user.username }}</span>
+                    {% if session.get('user_role') == 'admin' %}
+                        <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('admin.logout') }}">退出登录</a>
+                    {% else %}
+                        <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('auth.logout') }}">退出登录</a>
+                    {% endif %}
+                {% else %}
+                    <a class="btn-carbon btn-secondary-carbon" href="{{ url_for('auth.login') }}">登录</a>
+                    <a class="btn-carbon btn-primary-carbon" href="{{ url_for('auth.register') }}">注册</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <main class="content">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert-stack">
+                {% for message in messages %}
+                <div class="alert-carbon warn">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+</body>
+
+</html>

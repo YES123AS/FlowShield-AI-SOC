@@ -1,0 +1,134 @@
+[
+  {
+    "expected_class": "DDoS",
+    "file": "model_verified_pcaps\\DDoS\\ddos_model_verified_01.pcap",
+    "model_prediction": "DDoS",
+    "model_confidence": 0.9919055700302124,
+    "flow_count": 1,
+    "packet_count": 5,
+    "drift_warning": false,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 3, \"bwd_flags\": \"P\", \"bwd_jitter\": 128, \"bwd_payload\": 1460, \"bwd_window\": 4096, \"dport\": 995, \"duration\": 0.006012780839798607, \"fwd_count\": 2, \"fwd_flags\": \"A\", \"fwd_jitter\": 0, \"fwd_payload\": 29, \"fwd_window\": 4096, \"protocol\": \"TCP\", \"sport\": 14062, \"time_pattern\": \"alternating\"}"
+  },
+  {
+    "expected_class": "DDoS",
+    "file": "model_verified_pcaps\\DDoS\\ddos_model_verified_02.pcap",
+    "model_prediction": "DDoS",
+    "model_confidence": 0.9907163977622986,
+    "flow_count": 1,
+    "packet_count": 5,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 3, \"bwd_flags\": \"P\", \"bwd_jitter\": 8, \"bwd_payload\": 1460, \"bwd_window\": 4096, \"dport\": 995, \"duration\": 0.006012780839798607, \"fwd_count\": 2, \"fwd_flags\": \"A\", \"fwd_jitter\": 8, \"fwd_payload\": 29, \"fwd_window\": 4096, \"protocol\": \"TCP\", \"sport\": 14062, \"time_pattern\": \"alternating\"}"
+  },
+  {
+    "expected_class": "DDoS",
+    "file": "model_verified_pcaps\\DDoS\\ddos_model_verified_03.pcap",
+    "model_prediction": "DDoS",
+    "model_confidence": 0.9840303659439087,
+    "flow_count": 1,
+    "packet_count": 5,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 3, \"bwd_flags\": \"P\", \"bwd_jitter\": 0, \"bwd_payload\": 1460, \"bwd_window\": 4096, \"dport\": 445, \"duration\": 0.0030335811610125154, \"fwd_count\": 2, \"fwd_flags\": \"A\", \"fwd_jitter\": 0, \"fwd_payload\": 36, \"fwd_window\": 4096, \"protocol\": \"TCP\", \"sport\": 55462, \"time_pattern\": \"idle\"}"
+  },
+  {
+    "expected_class": "DoS",
+    "file": "model_verified_pcaps\\DoS\\dos_model_verified_01.pcap",
+    "model_prediction": "DoS",
+    "model_confidence": 0.999916672706604,
+    "flow_count": 1,
+    "packet_count": 2,
+    "drift_warning": true,
+    "rule_hits": "",
+    "config": "{\"bwd_count\": 0, \"bwd_flags\": \"F\", \"bwd_jitter\": 8, \"bwd_payload\": 49, \"bwd_window\": 256, \"dport\": 5432, \"duration\": 240, \"fwd_count\": 2, \"fwd_flags\": \"P\", \"fwd_jitter\": 0, \"fwd_payload\": 357, \"fwd_window\": 4096, \"protocol\": \"TCP\", \"sport\": 23148, \"time_pattern\": \"alternating\"}"
+  },
+  {
+    "expected_class": "DoS",
+    "file": "model_verified_pcaps\\DoS\\dos_model_verified_02.pcap",
+    "model_prediction": "DoS",
+    "model_confidence": 0.9999134540557861,
+    "flow_count": 1,
+    "packet_count": 2,
+    "drift_warning": true,
+    "rule_hits": "",
+    "config": "{\"bwd_count\": 0, \"bwd_flags\": \"\", \"bwd_jitter\": 8, \"bwd_payload\": 152, \"bwd_window\": 16384, \"dport\": 5432, \"duration\": 240, \"fwd_count\": 2, \"fwd_flags\": \"P\", \"fwd_jitter\": 32, \"fwd_payload\": 357, \"fwd_window\": 4096, \"protocol\": \"TCP\", \"sport\": 23148, \"time_pattern\": \"alternating\"}"
+  },
+  {
+    "expected_class": "DoS",
+    "file": "model_verified_pcaps\\DoS\\dos_model_verified_03.pcap",
+    "model_prediction": "DoS",
+    "model_confidence": 0.9999039173126221,
+    "flow_count": 1,
+    "packet_count": 2,
+    "drift_warning": true,
+    "rule_hits": "",
+    "config": "{\"bwd_count\": 0, \"bwd_flags\": \"\", \"bwd_jitter\": 0, \"bwd_payload\": 0, \"bwd_window\": 4096, \"dport\": 2344, \"duration\": 240, \"fwd_count\": 2, \"fwd_flags\": \"P\", \"fwd_jitter\": 32, \"fwd_payload\": 357, \"fwd_window\": 2048, \"protocol\": \"TCP\", \"sport\": 23148, \"time_pattern\": \"uniform\"}"
+  },
+  {
+    "expected_class": "Malware",
+    "file": "model_verified_pcaps\\Malware\\malware_model_verified_01.pcap",
+    "model_prediction": "Malware",
+    "model_confidence": 0.9976279139518738,
+    "flow_count": 1,
+    "packet_count": 96,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 95, \"bwd_flags\": \"P\", \"bwd_jitter\": 8, \"bwd_payload\": 0, \"bwd_window\": 2048, \"dport\": 5702, \"duration\": 0.005883005941299787, \"fwd_count\": 1, \"fwd_flags\": \"F\", \"fwd_jitter\": 32, \"fwd_payload\": 228, \"fwd_window\": 29200, \"protocol\": \"TCP\", \"sport\": 60605, \"time_pattern\": \"burst\"}"
+  },
+  {
+    "expected_class": "Malware",
+    "file": "model_verified_pcaps\\Malware\\malware_model_verified_02.pcap",
+    "model_prediction": "Malware",
+    "model_confidence": 0.9976263642311096,
+    "flow_count": 1,
+    "packet_count": 96,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 95, \"bwd_flags\": \"P\", \"bwd_jitter\": 8, \"bwd_payload\": 0, \"bwd_window\": 2048, \"dport\": 5702, \"duration\": 0.005883005941299787, \"fwd_count\": 1, \"fwd_flags\": \"F\", \"fwd_jitter\": 32, \"fwd_payload\": 227, \"fwd_window\": 29200, \"protocol\": \"TCP\", \"sport\": 35227, \"time_pattern\": \"idle\"}"
+  },
+  {
+    "expected_class": "Malware",
+    "file": "model_verified_pcaps\\Malware\\malware_model_verified_03.pcap",
+    "model_prediction": "Malware",
+    "model_confidence": 0.9976266026496887,
+    "flow_count": 1,
+    "packet_count": 100,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 99, \"bwd_flags\": \"P\", \"bwd_jitter\": 0, \"bwd_payload\": 0, \"bwd_window\": 2048, \"dport\": 5702, \"duration\": 0.005883005941299787, \"fwd_count\": 1, \"fwd_flags\": \"F\", \"fwd_jitter\": 32, \"fwd_payload\": 280, \"fwd_window\": 29200, \"protocol\": \"TCP\", \"sport\": 11581, \"time_pattern\": \"uniform\"}"
+  },
+  {
+    "expected_class": "WebAttack",
+    "file": "model_verified_pcaps\\WebAttack\\webattack_model_verified_01.pcap",
+    "model_prediction": "WebAttack",
+    "model_confidence": 0.6385931372642517,
+    "flow_count": 1,
+    "packet_count": 168,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 0, \"bwd_flags\": \"P\", \"bwd_jitter\": 8, \"bwd_payload\": 0, \"bwd_window\": 64, \"dport\": 80, \"duration\": 0.024518007807103982, \"fwd_count\": 168, \"fwd_flags\": \"PA\", \"fwd_jitter\": 0, \"fwd_payload\": 741, \"fwd_window\": 256, \"protocol\": \"TCP\", \"sport\": 22743, \"time_pattern\": \"idle\"}"
+  },
+  {
+    "expected_class": "WebAttack",
+    "file": "model_verified_pcaps\\WebAttack\\webattack_model_verified_02.pcap",
+    "model_prediction": "WebAttack",
+    "model_confidence": 0.6338829398155212,
+    "flow_count": 1,
+    "packet_count": 168,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 0, \"bwd_flags\": \"P\", \"bwd_jitter\": 32, \"bwd_payload\": 0, \"bwd_window\": 64, \"dport\": 80, \"duration\": 0.024518007807103982, \"fwd_count\": 168, \"fwd_flags\": \"PA\", \"fwd_jitter\": 0, \"fwd_payload\": 836, \"fwd_window\": 256, \"protocol\": \"TCP\", \"sport\": 22743, \"time_pattern\": \"burst\"}"
+  },
+  {
+    "expected_class": "WebAttack",
+    "file": "model_verified_pcaps\\WebAttack\\webattack_model_verified_03.pcap",
+    "model_prediction": "WebAttack",
+    "model_confidence": 0.5834682583808899,
+    "flow_count": 1,
+    "packet_count": 168,
+    "drift_warning": true,
+    "rule_hits": "RULE_DDOS_001",
+    "config": "{\"bwd_count\": 0, \"bwd_flags\": \"P\", \"bwd_jitter\": 8, \"bwd_payload\": 0, \"bwd_window\": 64, \"dport\": 445, \"duration\": 0.024518007807103982, \"fwd_count\": 168, \"fwd_flags\": \"PA\", \"fwd_jitter\": 0, \"fwd_payload\": 1010, \"fwd_window\": 256, \"protocol\": \"TCP\", \"sport\": 22743, \"time_pattern\": \"idle\"}"
+  }
+]
